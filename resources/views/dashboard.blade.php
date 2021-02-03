@@ -7,9 +7,19 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <x-jet-welcome />
-            </div>
+            <x-greeter name="{{ Auth::user()->name }}" role="{{ Auth::user()->role }}" class="mb-8"/>
+                
+            @switch(Auth::user()->role)
+                @case('admin')  
+                    <x-admin-dashboard />
+
+                @case('lecturer')
+                    <x-lecturer-dashboard />
+
+                @case('student')
+                    <x-student-dashboard />
+
+            @endswitch
         </div>
     </div>
 </x-app-layout>
