@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -58,4 +60,21 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * The subjects taught by the user.
+     */
+    public function taughtSubjects(): HasMany
+    {
+        return $this->hasMany(Subject::class, 'teacher_id');
+    }
+
+    /**
+     * The subjects done by the user.
+     */
+    public function registeredSubjects(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'registrations', 'student_id', 'subject_id')
+            ->as('registration');
+    }
 }

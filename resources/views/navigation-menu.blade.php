@@ -19,6 +19,10 @@
                     <x-jet-nav-link href="/rooms" :active="request()->is('rooms*')">
                         {{ __('Rooms') }}
                     </x-jet-nav-link>
+
+                    <x-jet-nav-link href="/subjects" :active="request()->is('subjects*')">
+                        {{ __('Subjects') }}
+                    </x-jet-nav-link>
                 </div>
             </div>
 

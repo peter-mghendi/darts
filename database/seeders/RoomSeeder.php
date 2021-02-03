@@ -16,9 +16,12 @@ class RoomSeeder extends Seeder
     {
         $num = 4;
         $rooms = [];
+        $now = date('Y-m-d H:i:s');
 
         for ($i = 0; $i < $num; $i++) $rooms[] = [
-            'name' => 'Room ' . $i + 1
+            'name' => 'Room ' . $i + 1,
+            'created_at' => $now,
+            'updated_at' => $now
         ];
 
         DB::table('rooms')->insert($rooms);
