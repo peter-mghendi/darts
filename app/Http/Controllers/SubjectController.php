@@ -15,7 +15,10 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        return view('subjects', ['registered' => Auth::user()->registeredSubjects]);
+        return view('subjects', [
+            'subjects' => Subject::all(),
+            'registered' => Auth::user()->registeredSubjects
+        ]);
     }
 
     /**
