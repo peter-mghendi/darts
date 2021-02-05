@@ -16,7 +16,7 @@
         @livewireStyles
 
         <!-- Scripts -->
-        c
+        <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />

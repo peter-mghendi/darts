@@ -69,6 +69,16 @@ class User extends Authenticatable
         return $this->hasMany(Subject::class, 'teacher_id');
     }
 
+     /**
+     * The lessons attended by the student.
+     */
+    public function lessons(): BelongsToMany
+    {
+        return $this->belongsToMany(Lesson::class, 'attendances', 'student_id', 'lesson_id')
+            ->as('attendance')
+            ->withTimestamps('time_in', 'time_out');
+    }
+
     /**
      * The subjects done by the user.
      */

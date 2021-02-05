@@ -20,6 +20,40 @@
     </div>
 
     @push('scripts')
+        <script>
+            const events = [];
+            
+            @foreach ($lessons as $lesson)
+                @php
+                    // TODO Restructure
+                    $color = "#007bff";
+                    $isFuture = new DateTime($lesson->end_time) > new DateTime();
+
+                    if (!$isFuture) {
+                        $attended = $lesson->students->contains(Auth::id());
+                        $color = $attended ? 'green' : 'red';
+                    }
+                @endphp
+
+                events.push({
+                    id: @json($lesson->id),
+                    title: @json($lesson->subject->id),
+                    start: @json($lesson->start_time),
+                    end: @json($lesson->start_time),
+                    allDay: false,
+                    color: @json($color),
+                    url: "#",
+
+                    extendedProps: {
+                        class: @json($lesson->subject->name),
+                        attended: @json($isFuture ? !$isFuture : $attended),
+                        hall: @json($lesson->room->name),
+                        status: @json($lesson->status),
+                        comment: @json($lesson->comment)
+                    }
+                });
+            @endforeach
+        </script>
         <script src="{{ mix('js/timetable.js') }}" defer></script>
     @endpush
 </x-app-layout>
