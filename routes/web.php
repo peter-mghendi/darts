@@ -28,4 +28,4 @@ Route::middleware(['auth:sanctum', 'verified'])->resource('rooms', RoomControlle
 
 Route::middleware(['auth:sanctum', 'verified'])->resource('subjects', SubjectController::class);
 
-Route::get('timetable', [TimetableController::class, 'show']);
+Route::middleware(['auth:sanctum', 'verified'])->get('timetable', [TimetableController::class, 'show']);

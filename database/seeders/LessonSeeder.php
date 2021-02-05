@@ -21,7 +21,7 @@ class LessonSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('lessons')->insert($this->generate());
+        DB::table('lessons')->insert($this->generate(12));
     }
 
     private function generate($weeks = 1)
@@ -67,7 +67,7 @@ class LessonSeeder extends Seeder
     private function refresh()
     {
         foreach (range(1, 4) as $year) {
-            foreach (range(1, 20, 1) as $code) {
+            foreach (range(1, 20, 2) as $code) {
                 $this->subjects[$year][] = "CCS $year" . str_pad($code, 2, '0', STR_PAD_LEFT);
             }
         }

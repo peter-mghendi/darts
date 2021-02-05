@@ -45,11 +45,11 @@ let calendar = new Calendar(calendarEl, {
         const event = info.event;
 
         let text = `Session ID: ${event.id}<br>`;
-        text += `Class: ${event.title}: ${event.extendedProps.class}\n`;
-        text += `Venue: ${event.extendedProps.hall}\n`;
-        text += `Class Status: ${getClassStatus(event)}\n`;
-        text += `Attended: ${event.extendedProps.attended}\n`;
-        text += `Lecturer's Comments: \n${event.extendedProps.comment}\n`;
+        text += `Class: ${event.title}: ${event.extendedProps.class}<br>`;
+        text += `Venue: ${event.extendedProps.hall}<br>`;
+        text += `Class Status: ${getClassStatus(event)}<br>`;
+        text += `Attended: ${event.extendedProps.attended}<br>`;
+        text += `Lecturer's Comments: <br>${event.extendedProps.comment}<br>`;
 
         Swal.fire("Session Details", text);
     },

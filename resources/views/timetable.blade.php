@@ -25,13 +25,12 @@
             
             @foreach ($lessons as $lesson)
                 @php
-                    // TODO Restructure
-                    $color = "#007bff";
-                    $isFuture = new DateTime($lesson->end_time) > new DateTime();
+                    $color = 'green'; "";
+                    $attended = $lesson->students->contains(Auth::id());
 
-                    if (!$isFuture) {
-                        $attended = $lesson->students->contains(Auth::id());
-                        $color = $attended ? 'green' : 'red';
+                    if (!$attended) {
+                        $isFuture = new DateTime($lesson->end_time) > new DateTime();
+                        $color = $isFuture ? '#007bff' : 'red';    
                     }
                 @endphp
 
@@ -46,7 +45,7 @@
 
                     extendedProps: {
                         class: @json($lesson->subject->name),
-                        attended: @json($isFuture ? !$isFuture : $attended),
+                        attended: @json($attended),
                         hall: @json($lesson->room->name),
                         status: @json($lesson->status),
                         comment: @json($lesson->comment)
