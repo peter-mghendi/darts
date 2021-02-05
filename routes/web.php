@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TimetableController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,3 +27,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::middleware(['auth:sanctum', 'verified'])->resource('rooms', RoomController::class);
 
 Route::middleware(['auth:sanctum', 'verified'])->resource('subjects', SubjectController::class);
+
+Route::get('timetable', [TimetableController::class, 'show']);

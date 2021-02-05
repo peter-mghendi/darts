@@ -14,8 +14,8 @@ class SubjectSeeder extends Seeder
      */
     public function run()
     {
-        $num = 64;
-        $perLevel = 16;
+        $num = 80;
+        $perLevel = 20;
         $subjects = [];
         $now = date('Y-m-d H:i:s');
 

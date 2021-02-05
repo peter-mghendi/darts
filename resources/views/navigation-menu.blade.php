@@ -23,6 +23,10 @@
                     <x-jet-nav-link href="/subjects" :active="request()->is('subjects*')">
                         {{ __('Subjects') }}
                     </x-jet-nav-link>
+
+                    <x-jet-nav-link href="/timetable" :active="request()->is('timetable*')">
+                        {{ __('Timetable') }}
+                    </x-jet-nav-link>
                 </div>
             </div>
 
