@@ -25,7 +25,7 @@
             
             @foreach ($lessons as $lesson)
                 @php
-                    $color = 'green'; "";
+                    $color = 'green';
                     $attended = $lesson->students->contains(Auth::id());
 
                     if (!$attended) {
@@ -38,7 +38,7 @@
                     id: @json($lesson->id),
                     title: @json($lesson->subject->id),
                     start: @json($lesson->start_time),
-                    end: @json($lesson->start_time),
+                    end: @json($lesson->end_time),
                     allDay: false,
                     color: @json($color),
                     url: "#",
@@ -48,7 +48,7 @@
                         attended: @json($attended),
                         hall: @json($lesson->room->name),
                         status: @json($lesson->status),
-                        comment: @json($lesson->comment)
+                        comment: @json($lesson->comment ?: "(none)")
                     }
                 });
             @endforeach

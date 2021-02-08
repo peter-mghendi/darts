@@ -12363,6 +12363,11 @@ function getClassStatus(classInfo) {
     return classInfo.extendedProps.status;
   }
 
+  console.log(new Date());
+  console.log(classInfo.start);
+  console.log(classInfo.end);
+  console.log(now < new Date(classInfo.start));
+  console.log(now > new Date(classInfo.end));
   var now = new Date();
   if (now < new Date(classInfo.start)) return "Scheduled";
   if (now > new Date(classInfo.end)) return "Completed";
