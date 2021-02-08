@@ -9,10 +9,13 @@
             @switch($role)
                 @case('admin')   
                     Welcome to your administrative dashboard.
+                    @break
                 @case('lecturer')
                     Welcome to your lecturer dashboard.
+                    @break
                 @case('student')
                     Welcome to your student dashboard.
+                    @break
             @endswitch
         </p>
     </div>

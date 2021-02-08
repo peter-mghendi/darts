@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subject;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,9 +16,17 @@ class SubjectController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        $property = match ($user->role) {
+            'student'   => 'registered',
+            'lecturer'  => 'taught',
+            default     => throw new Exception("Invalid User Role")
+        }
+        . 'Subjects';
+
         return view('subjects', [
             'subjects' => Subject::all(),
-            'registered' => Auth::user()->registeredSubjects
+            'registered' => $user->$property
         ]);
     }
 

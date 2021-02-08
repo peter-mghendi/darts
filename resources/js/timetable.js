@@ -49,12 +49,13 @@ let calendar = new Calendar(calendarEl, {
     dayMaxEventRows: true,
     eventClick: function (info) {
         const event = info.event;
+        const action = event.extendedProps.role === "student" ? "Attended" : "Taught";
 
         let text = `Session ID: ${event.id}<br>`;
         text += `Class: ${event.title}: ${event.extendedProps.class}<br>`;
         text += `Venue: ${event.extendedProps.hall}<br>`;
         text += `Class Status: ${getClassStatus(event)}<br>`;
-        text += `Attended: ${event.extendedProps.attended}<br>`;
+        text += `${action}: ${event.extendedProps.attended}<br>`;
         text += `Lecturer's Comments: <br>${event.extendedProps.comment}<br>`;
 
         Swal.fire("Session Details", text);

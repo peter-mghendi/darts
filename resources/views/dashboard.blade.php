@@ -12,12 +12,15 @@
             @switch(Auth::user()->role)
                 @case('admin')  
                     <x-admin-dashboard />
+                    @break
 
                 @case('lecturer')
                     <x-lecturer-dashboard />
+                    @break
 
                 @case('student')
                     <x-student-dashboard />
+                    @break
 
             @endswitch
         </div>

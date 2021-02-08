@@ -26,7 +26,11 @@
             @foreach ($lessons as $lesson)
                 @php
                     $color = 'green';
-                    $attended = $lesson->students->contains(Auth::id());
+                    $attended = match (Auth::user()->role) {
+                        'student'   => $lesson->students->contains(Auth::id()),
+                        'lecturer'  => $lesson->students->count() > 0,
+                        default     => throw new Exception("Invalid User Role")   
+                    };                    
 
                     if (!$attended) {
                         $isFuture = new DateTime($lesson->end_time) > new DateTime();
@@ -44,6 +48,7 @@
                     url: "#",
 
                     extendedProps: {
+                        role: @json(Auth::user()->role),
                         class: @json($lesson->subject->name),
                         attended: @json($attended),
                         hall: @json($lesson->room->name),

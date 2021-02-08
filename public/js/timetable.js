@@ -12393,11 +12393,12 @@ var calendar = new _fullcalendar_core__WEBPACK_IMPORTED_MODULE_0__.Calendar(cale
   dayMaxEventRows: true,
   eventClick: function eventClick(info) {
     var event = info.event;
+    var action = event.extendedProps.role === "student" ? "Attended" : "Taught";
     var text = "Session ID: ".concat(event.id, "<br>");
     text += "Class: ".concat(event.title, ": ").concat(event.extendedProps["class"], "<br>");
     text += "Venue: ".concat(event.extendedProps.hall, "<br>");
     text += "Class Status: ".concat(getClassStatus(event), "<br>");
-    text += "Attended: ".concat(event.extendedProps.attended, "<br>");
+    text += "".concat(action, ": ").concat(event.extendedProps.attended, "<br>");
     text += "Lecturer's Comments: <br>".concat(event.extendedProps.comment, "<br>");
     sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Session Details", text);
   }

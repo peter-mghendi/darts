@@ -23,12 +23,22 @@
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach ($rooms as $room)            
+                            @foreach ($rooms as $room)
+                                @php
+                                    $occupied = $room->lessons->filter(function ($lesson, $key) {
+                                        $now = new DateTime();
+                                        $start = new DateTime($lesson->start_time);
+                                        $end = new DateTime($lesson->end_time);
+                                        return $start < $now && $end > $now;
+                                    })->count() > 0; 
+
+                                    $color = $occupied ? 'red' : 'green';
+                                @endphp            
                                 <tr class="hover:bg-gray-100">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $room->name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            Vacant
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-{{ $color }}-100 text-{{ $color }}-800">
+                                            {{ $occupied ? 'Occupied' : 'Vacant' }}
                                         </span>
                                     </td>
                                 </tr>
