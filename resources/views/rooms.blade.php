@@ -29,7 +29,7 @@
                                         $now = new DateTime();
                                         $start = new DateTime($lesson->start_time);
                                         $end = new DateTime($lesson->end_time);
-                                        return $start < $now && $end > $now;
+                                        return $start <= $now && $end >= $now;
                                     })->count() > 0; 
 
                                     $color = $occupied ? 'red' : 'green';

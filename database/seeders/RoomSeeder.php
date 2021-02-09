@@ -14,7 +14,7 @@ class RoomSeeder extends Seeder
      */
     public function run()
     {
-        $num = 4;
+        $num = 8;
         $rooms = [];
         $now = date('Y-m-d H:i:s');
 

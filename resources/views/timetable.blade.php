@@ -50,8 +50,8 @@
                     extendedProps: {
                         role: @json(Auth::user()->role),
                         class: @json($lesson->subject->name),
-                        attended: @json($attended),
-                        hall: @json($lesson->room->name),
+                        attended: @json($attended ? 'Yes' : 'No'),
+                        room: @json($lesson->room->name),
                         status: @json($lesson->status),
                         comment: @json($lesson->comment ?: "(none)")
                     }

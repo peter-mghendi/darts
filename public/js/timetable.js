@@ -12394,13 +12394,8 @@ var calendar = new _fullcalendar_core__WEBPACK_IMPORTED_MODULE_0__.Calendar(cale
   eventClick: function eventClick(info) {
     var event = info.event;
     var action = event.extendedProps.role === "student" ? "Attended" : "Taught";
-    var text = "Session ID: ".concat(event.id, "<br>");
-    text += "Class: ".concat(event.title, ": ").concat(event.extendedProps["class"], "<br>");
-    text += "Venue: ".concat(event.extendedProps.hall, "<br>");
-    text += "Class Status: ".concat(getClassStatus(event), "<br>");
-    text += "".concat(action, ": ").concat(event.extendedProps.attended, "<br>");
-    text += "Lecturer's Comments: <br>".concat(event.extendedProps.comment, "<br>");
-    sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Session Details", text);
+    var text = "Subject: ".concat(event.title, " - ").concat(event.extendedProps["class"], "<br>") + "Venue: ".concat(event.extendedProps.room, "<br>") + "Class Status: ".concat(getClassStatus(event), "<br>") + "".concat(action, ": ").concat(event.extendedProps.attended, "<br>") + "Lecturer's Comments: <br>".concat(event.extendedProps.comment, "<br>");
+    sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Lesson #".concat(event.id, " Details"), text, "info");
   }
 });
 calendar.render();

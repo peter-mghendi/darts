@@ -8,22 +8,22 @@ import Swal from "sweetalert2";
 const calendarEl = document.getElementById("calendar");
 
 function getClassStatus(classInfo) {
-  let status = classInfo.extendedProps.status; 
-  if (status && status.trim()) {
-      return classInfo.extendedProps.status;
-  }
+    let status = classInfo.extendedProps.status;
+    if (status && status.trim()) {
+        return classInfo.extendedProps.status;
+    }
 
-  console.log(new Date());
-  console.log(classInfo.start);
-  console.log(classInfo.end);
-  console.log(now < new Date(classInfo.start));
-  console.log(now > new Date(classInfo.end));
+    console.log(new Date());
+    console.log(classInfo.start);
+    console.log(classInfo.end);
+    console.log(now < new Date(classInfo.start));
+    console.log(now > new Date(classInfo.end));
 
-  const now = new Date();
-  if (now < new Date(classInfo.start)) return "Scheduled";
-  if (now > new Date(classInfo.end)) return "Completed";
+    const now = new Date();
+    if (now < new Date(classInfo.start)) return "Scheduled";
+    if (now > new Date(classInfo.end)) return "Completed";
 
-  return "Ongoing";
+    return "Ongoing";
 }
 
 let calendar = new Calendar(calendarEl, {
@@ -51,14 +51,13 @@ let calendar = new Calendar(calendarEl, {
         const event = info.event;
         const action = event.extendedProps.role === "student" ? "Attended" : "Taught";
 
-        let text = `Session ID: ${event.id}<br>`;
-        text += `Class: ${event.title}: ${event.extendedProps.class}<br>`;
-        text += `Venue: ${event.extendedProps.hall}<br>`;
-        text += `Class Status: ${getClassStatus(event)}<br>`;
-        text += `${action}: ${event.extendedProps.attended}<br>`;
-        text += `Lecturer's Comments: <br>${event.extendedProps.comment}<br>`;
+        let text = `Subject: ${event.title} - ${event.extendedProps.class}<br>` 
+            + `Venue: ${event.extendedProps.room}<br>` 
+            + `Class Status: ${getClassStatus(event)}<br>` 
+            + `${action}: ${event.extendedProps.attended}<br>` 
+            + `Lecturer's Comments: <br>${event.extendedProps.comment}<br>`;
 
-        Swal.fire("Session Details", text);
+        Swal.fire(`Lesson #${event.id} Details`, text, "info");
     },
 });
 
