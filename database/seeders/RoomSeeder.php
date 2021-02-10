@@ -16,7 +16,7 @@ class RoomSeeder extends Seeder
     {
         $num = 8;
         $rooms = [];
-        $now = date('Y-m-d H:i:s');
+        $now = now();
 
         for ($i = 0; $i < $num; $i++) $rooms[] = [
             'name' => 'Room ' . $i + 1,

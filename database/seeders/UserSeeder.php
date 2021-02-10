@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $now = date('Y-m-d H:i:s');
+        $now = now();
 
         DB::table('users')->insert([
             [

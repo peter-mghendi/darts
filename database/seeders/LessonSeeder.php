@@ -26,7 +26,7 @@ class LessonSeeder extends Seeder
     private function generate($weeks = 1)
     {
         $this->refresh();
-        $now = date('Y-m-d H:i:s');
+        $now = now();
 
         $current = new DateTimeImmutable('first monday of last month 7am');
 

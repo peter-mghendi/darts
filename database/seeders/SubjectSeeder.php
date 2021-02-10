@@ -17,7 +17,7 @@ class SubjectSeeder extends Seeder
         $num = 80;
         $perLevel = 20;
         $subjects = [];
-        $now = date('Y-m-d H:i:s');
+        $now = now();
 
         for ($i = 1; $i <= $num; $i++) {
             $level = ceil($i / $perLevel);

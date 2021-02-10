@@ -20,7 +20,7 @@ class AttendanceSeeder extends Seeder
         $attendances = [];
         $student = User::with('registeredSubjects')->find(3);
         $subjects = $student->registeredSubjects->pluck('id');
-        $lessons = Lesson::where('start_time', '<', CarbonImmutable::now())
+        $lessons = Lesson::where('start_time', '<', now())
             ->whereIn('subject_id', $subjects)->get();
 
         foreach ($lessons as $lesson) {
