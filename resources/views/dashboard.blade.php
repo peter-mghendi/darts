@@ -16,9 +16,15 @@
             @if (in_array($role, ['student', 'lecturer']))
                 <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-4">
                     <div class="px-4 py-5 sm:px-6">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900">Ongoing Classes</h3>
-                        <hr>
+                        
                         @forelse ($lessons as $lesson)
+                            @once
+                                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                    Ongoing Classes
+                                </h3>
+                                <hr>
+                            @endonce
+
                             <div class="d-flex p-2 hover:bg-gray-100">
                                 <h5 class="text-lg leading-6 font-medium text-gray-900">
                                     {{ $lesson->subject->id }}: {{ $lesson->subject->name }}
@@ -49,7 +55,7 @@
                     @break
 
                 @case('student')
-                    <x-student-dashboard />
+                    <x-student-dashboard :subjectRecords="$subjectRecords" />
                     @break
 
             @endswitch

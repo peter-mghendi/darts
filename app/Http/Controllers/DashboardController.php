@@ -17,18 +17,32 @@ class DashboardController extends Controller
             'lecturer'  => 'taught',
             default     => throw new Exception("Invalid User Role")
         }
-        . 'Subjects';
+            . 'Subjects';
 
-        $subjects = $user->$property->pluck('id');
-        $now = date('Y-m-d H:i:s');
+        $subjects = $user->$property;
+        $subjectIds = $subjects->pluck('id');
+        $now = now();
 
-        return view('dashboard', [
+        $data = [
             'lessons' => Lesson::with(['subject', 'room'])
                 ->where('start_time', '<', $now)
                 ->where('end_time', '>', $now)
-                ->whereIn('subject_id', $subjects)->get()
-        ]);
+                ->whereIn('subject_id', $subjectIds)->get()
+        ];
 
-        // return view('dashboard');
+        if ($user->role === 'student') {
+            $data['subjectRecords'] = [];
+
+            foreach ($subjects as $subject) {
+                $lessons = $subject->lessons()->where('end_time', '<', now())->get();
+
+                $data['subjectRecords'][$subject->id] = [
+                    'occurrences' => $lessons->count(),
+                    'attendances' => $lessons->filter(fn($l) => $l->students->contains($user))->count()
+                ];
+            }
+        };
+
+        return view('dashboard', $data);
     }
 }
