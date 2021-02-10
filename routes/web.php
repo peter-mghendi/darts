@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TimetableController;
@@ -20,9 +21,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified'])->resource('rooms', RoomController::class);
 
