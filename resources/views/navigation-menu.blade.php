@@ -153,6 +153,18 @@
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>
+
+            <x-jet-responsive-nav-link href="/rooms" :active="request()->is('rooms*')">
+                {{ __('Rooms') }}
+            </x-jet-responsive-nav-link>
+
+            <x-jet-responsive-nav-link href="/subjects" :active="request()->is('subjects*')">
+                {{ __('Subjects') }}
+            </x-jet-responsive-nav-link>
+
+            <x-jet-responsive-nav-link href="/timetable" :active="request()->is('timetable*')">
+                {{ __('Timetable') }}
+            </x-jet-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
