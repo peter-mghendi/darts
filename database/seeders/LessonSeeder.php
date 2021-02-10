@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use DateTime;
 use DateTimeImmutable;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;

@@ -11,6 +11,11 @@ class Lesson extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'start_time' => 'datetime',
+        'end_time' => 'datetime'
+    ];
+
     /**
      * Get the subject taught in the lesson.
      */

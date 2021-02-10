@@ -33,8 +33,7 @@
                     };                    
 
                     if (!$attended) {
-                        $isFuture = new DateTime($lesson->end_time) > new DateTime();
-                        $color = $isFuture ? '#007bff' : 'red';    
+                        $color = $lesson->end_time->isFuture() ? '#007bff' : 'red';    
                     }
                 @endphp
 

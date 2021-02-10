@@ -4,8 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Lesson;
 use App\Models\User;
-use DateTime;
-use DateTimeImmutable;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -21,7 +20,8 @@ class AttendanceSeeder extends Seeder
         $attendances = [];
         $student = User::with('registeredSubjects')->find(3);
         $subjects = $student->registeredSubjects->pluck('id');
-        $lessons = Lesson::whereIn('subject_id', $subjects)->get();
+        $lessons = Lesson::where('start_time', '<', CarbonImmutable::now())
+            ->whereIn('subject_id', $subjects)->get();
 
         foreach ($lessons as $lesson) {
             if (random_int(1, 10) < 8) {
@@ -37,14 +37,17 @@ class AttendanceSeeder extends Seeder
         DB::table('attendances')->insert($attendances);
     }
 
-    private function randomDateNear(string $dateString, bool $forward) : string {
+    private function randomDateNear(string $dateString, bool $forward): string
+    {
         $interval = random_int(0, 15);
 
         if ($interval === 0) return $dateString;
 
-        $new = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $dateString)
-            ->modify(($forward ? '+' : '-') . "$interval minutes")
-            ->getTimestamp();
+        $operation = ($forward ? 'add' : 'sub') . 'Minutes';
+
+        $new = CarbonImmutable::createFromFormat('Y-m-d H:i:s', $dateString)
+            ->$operation(5)
+            ->timestamp;
 
         $old = strtotime($dateString);
 

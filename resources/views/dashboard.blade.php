@@ -24,7 +24,7 @@
                                     {{ $lesson->subject->id }}: {{ $lesson->subject->name }}
                                 </h5>
                                 <p class="mt-1 max-w-2xl text-gray-700">
-                                    {{ (new DateTime($lesson->start_time))->format('H:i') }} - {{ (new DateTime($lesson->end_time))->format('H:i') }}
+                                    {{ $lesson->start_time->format('H:i') }} - {{ $lesson->end_time->format('H:i') }}
                                 </p>
                                 <p class="mt-1 max-w-2xl text-sm text-gray-500">
                                     {{ $lesson->room->name }}

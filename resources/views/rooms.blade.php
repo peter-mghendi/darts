@@ -26,10 +26,7 @@
                             @foreach ($rooms as $room)
                                 @php
                                     $occupied = $room->lessons->filter(function ($lesson, $key) {
-                                        $now = new DateTime();
-                                        $start = new DateTime($lesson->start_time);
-                                        $end = new DateTime($lesson->end_time);
-                                        return $start <= $now && $end >= $now;
+                                        return $lesson->start_time->isPast() && $lesson->end_time->isFuture();
                                     })->count() > 0; 
 
                                     $color = $occupied ? 'red' : 'green';
