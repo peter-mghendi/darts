@@ -51,7 +51,7 @@
                     @break
 
                 @case('lecturer')
-                    <x-lecturer-dashboard />
+                    <x-lecturer-dashboard :ongoingLessons="$lessons" />
                     @break
 
                 @case('student')

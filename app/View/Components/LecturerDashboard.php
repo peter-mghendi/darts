@@ -2,18 +2,21 @@
 
 namespace App\View\Components;
 
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class LecturerDashboard extends Component
 {
+    public Collection $ongoingLessons;
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Collection $ongoingLessons)
     {
-        //
+        $this->ongoingLessons = $ongoingLessons;
     }
 
     /**
