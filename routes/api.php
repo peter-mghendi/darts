@@ -45,9 +45,7 @@ Route::middleware('auth:sanctum')->post('/attendance', function (Request $reques
             'lesson_id'  => $lesson->id
         ]);
     } catch (QueryException $qe) {
-        // Already in class.
-        // TODO: Use this for time_out?
-        if ($qe->errorInfo[1] == 1062) return $student;
+        if ($qe->errorInfo[1] == 1062) return $student; // Already in class.
         throw $qe;
     }
 
