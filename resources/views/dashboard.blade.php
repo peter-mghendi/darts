@@ -47,15 +47,15 @@
                 
             @switch($role)
                 @case('admin')  
-                    <x-admin-dashboard />
+                    <x-dashboard.admin />
                     @break
 
                 @case('lecturer')
-                    <x-lecturer-dashboard :ongoingLessons="$lessons" />
+                    <x-dashboard.lecturer :ongoingLessons="$lessons" />
                     @break
 
                 @case('student')
-                    <x-student-dashboard :subjectRecords="$subjectRecords" />
+                    <x-dashboard.student :subjectRecords="$subjectRecords" />
                     @break
 
             @endswitch
