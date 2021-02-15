@@ -14,12 +14,6 @@
                     @endforeach
                 </div>
                 <video src="" id="scanner" class="border border-dashed rounded-lg h-80 w-full bg-indigo-100"></video>
-                {{-- <div class="scanner border border-dashed h-80 flex">
-                    <div class="m-auto">
-                        <input type="text" name="" id="student">
-                        <button id="register">Register</button>
-                    </div>
-                </div> --}}
             </div>
         </div>
         <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-4 col-span-3 md:col-span-1">

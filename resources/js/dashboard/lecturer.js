@@ -1,9 +1,19 @@
-// const registerButton = document.getElementById("register");
-// const textBox = document.getElementById("student");
+import { BrowserQRCodeReader } from "@zxing/browser";
+
 const identityContainer = document.getElementById("identity");
+/** Duration user details flash on screen. */
+const DELAY = 5 * 1000; // 5 seconds
 
-import { BrowserQRCodeReader } from "@zxing/library";
+/** 
+ * Duration past which the system will not accept registration.
+ * Set to <= 0 to disable this feature.
+ */
+const DEADLINE = 15 * 60 * 1000; // 15 minutes
 
+/**
+ * @param {HTMLElement} e
+ * @param {Object} d
+ */
 function setData(e, d) {
     const img = document.createElement("img");
     const id = document.createElement("p");
@@ -27,6 +37,9 @@ function setData(e, d) {
     e.append(img, id, name, contact);
 }
 
+/**
+ * @param {HTMLElement} e
+ */
 function resetData(e) {
     const img = document.createElement("img");
     const text = document.createElement("p");
@@ -42,54 +55,62 @@ function resetData(e) {
     e.append(img, text);
 }
 
-function registerAttendance(codeReader, selectedDeviceId, data) {
-    axios.get("/sanctum/csrf-cookie").then((response) => {
-        axios
-            .post("/api/attendance", data)
-            .then((res) => setData(identityContainer, res.data))
-            .catch((error) => console.log(error))
-            .then(
-                setTimeout(() => {
+/**
+ * @param {{student: string, lesson: string}} data
+ */
+async function registerAttendance(data) {
+    const cookie = await axios.get("/sanctum/csrf-cookie");
+    return await axios
+        .post("/api/attendance", data)
+        .then((res) => setData(identityContainer, res.data))
+        .catch((error) => console.log(error));
+}
+
+/**
+ * @param {BrowserQRCodeReader} codeReader
+ * @param {string} selectedDeviceId
+ * @param {string | HTMLVideoElement} previewElement
+ */
+async function decodeOnce(codeReader, selectedDeviceId, previewElement) {
+    const mainControls = await codeReader.decodeFromVideoDevice(
+        selectedDeviceId,
+        previewElement,
+        async (result, error, controls) => {
+            if (!error) {
+                controls.stop();
+
+                await registerAttendance({
+                    student: result.text,
+                    lesson: document.querySelector(
+                        "input[name='lesson']:checked"
+                    ).value,
+                });
+
+                setTimeout(async () => {
                     resetData(identityContainer);
-                    decodeOnce(codeReader, selectedDeviceId);
-                }, 5000)
-            );
-    });
+                    await decodeOnce(
+                        codeReader,
+                        selectedDeviceId,
+                        previewElement
+                    );
+                }, DELAY);
+
+                return;
+            }
+
+            // console.error(error); // This is congesting the console
+        }
+    );
+
+    // Lock latecomers out
+    if (DEADLINE > 0) setTimeout(() => mainControls.stop(), DEADLINE);
 }
 
-// registerButton.onclick = (obj, e) => {
-//     registerAttendance({
-//         student: textBox.value,
-//         lesson: document.querySelector("input[name='lesson']:checked").value,
-//     });
-// };
-
-function decodeOnce(codeReader, selectedDeviceId) {
-    codeReader
-        .decodeFromInputVideoDevice(selectedDeviceId, "scanner")
-        .then((result) => {
-            registerAttendance(codeReader, selectedDeviceId, {
-                student: result.text,
-                lesson: document.querySelector("input[name='lesson']:checked")
-                    .value,
-            });
-            codeReader.reset();
-        })
-        .catch((err) => console.error(err));
-}
-
-window.addEventListener("load", function () {
+window.addEventListener("load", async function () {
     let selectedDeviceId;
     const codeReader = new BrowserQRCodeReader();
-    console.log("ZXing code reader initialized");
 
-    codeReader
-        .getVideoInputDevices()
-        .then((videoInputDevices) => {
-            selectedDeviceId = videoInputDevices[0].deviceId;
-
-            decodeOnce(codeReader, selectedDeviceId);
-            console.log(`Decoding from camera with id ${selectedDeviceId}`);
-        })
-        .catch((err) => console.error(err));
+    const videoInputDevices = await BrowserQRCodeReader.listVideoInputDevices();
+    selectedDeviceId = videoInputDevices[0].deviceId;
+    await decodeOnce(codeReader, selectedDeviceId, "scanner");
 });
