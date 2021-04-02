@@ -1,4 +1,5 @@
 import { BrowserQRCodeReader } from "@zxing/browser";
+import axios from "axios";
 
 const identityContainer = document.getElementById("identity");
 /** Duration user details flash on screen. */
@@ -44,22 +45,21 @@ function resetData(e) {
     const img = document.createElement("img");
     const text = document.createElement("p");
 
-    e.innerHTML = "";
-
     img.src = scannerImage;
     img.classList = "w-3/5 opacity-50 mx-auto mb-4";
 
     text.textContent = "Scan your ID";
     text.classList = "text-lg text-semilight text-gray-700";
 
+    e.innerHTML = "";
     e.append(img, text);
 }
 
 /**
  * @param {{student: string, lesson: string}} data
+ * @todo Appropriate UI feedback on error
  */
 async function registerAttendance(data) {
-    const cookie = await axios.get("/sanctum/csrf-cookie");
     return await axios
         .post("/api/attendance", data)
         .then((res) => setData(identityContainer, res.data))
@@ -78,7 +78,7 @@ async function decodeOnce(codeReader, selectedDeviceId, previewElement) {
         async (result, error, controls) => {
             if (!error) {
                 controls.stop();
-
+                
                 await registerAttendance({
                     student: result.text,
                     lesson: document.querySelector(
